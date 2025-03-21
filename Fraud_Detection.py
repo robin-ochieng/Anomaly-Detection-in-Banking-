@@ -141,7 +141,6 @@ plt.hist(tm, bins=np.arange(0,60,3))
 plt.title('Num. of frauds per account')
 plt.ylabel('Accounts with fraud')
 
-
 # Fraud amount per account
 #-------------------------
 num_accounts_with_fraud = len(num_fraud_per_account[np.where(num_fraud_per_account>0)])
@@ -165,7 +164,6 @@ for label, ax in axs.items():
     ax.set_title(label, fontfamily='serif', loc='left', fontsize=16)
 
 # plt.figtext(0.4, -0.1, txt, wrap=True, horizontalalignment='center', fontsize=12)
-
 
 #Modelling
 # 1). Data Split
@@ -222,7 +220,6 @@ class LabelEncoderExt(object):
     It differs from LabelEncoder by handling new classes (unseen during .fit() ) and providing a value for it [Unknown]
     Unknown will be added in fit and transform will take care of new item. It gives unknown class id
     """
-   
     def __init__(self):
         
         self.label_encoder = LabelEncoder()
@@ -632,7 +629,6 @@ X_val2_ss  = pd.DataFrame(ss.transform(X_val2t), columns=X_val2t.columns)
 classifiers_labels = [
     'KNeighborsClassifier',
     'LogisticRegression',
-    #OneClassSVM(gamma='scale', nu=0.01),
     'RandomForestClassifier',
     'AdaBoostClassifier',
     'GradientBoostingClassifier'
@@ -641,7 +637,7 @@ classifiers_labels = [
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 classifiers = [
-    KNeighborsClassifier(algorithm="kd_tree"),
+    KNeighborsClassifier(algorithm="kd0_tree"),
     LogisticRegression( class_weight='balanced'),
     # OneClassSVM()
     RandomForestClassifier(),
@@ -652,9 +648,7 @@ classifiers = [
 f1, auc1, auc2, tt = [], [],[], []
 for classifier in classifiers:
     #print(classifier)
-    steps = [
-         ('clf', classifier)
-    ]
+    steps = [('clf', classifier)]
     pipeline = Pipeline(steps)
     pipeline.fit(X_train_ss, y_train) 
 
@@ -683,7 +677,6 @@ for classifier in classifiers:
     classifiers_labels = [
     'K Neighbors',
     'Logistic Regression',
-    #OneClassSVM(gamma='scale', nu=0.01),
     'Random Forest',
     'AdaBoost',
     'Gradient-Boosting'
